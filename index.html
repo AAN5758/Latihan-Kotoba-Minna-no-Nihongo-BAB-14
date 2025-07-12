@@ -391,12 +391,22 @@
     </div>
 
     <div class="question-area">
+      <div id="startScreen" class="quiz-header">
+        <h3>Siap menguji kemampuanmu? Klik tombol di bawah untuk memulai!</h3>
+        <button onclick="startQuiz()">Ayo Mulai</button>
+      </div>
+      
+      <div id="quizContainer" style="display: none;">
+        <!-- Semua elemen kuismu sebelumnya di sini -->
+           
       <div class="question shine-effect" id="question">Soalnya di sini</div>
       <div class="options-container" id="options">
         <button id="nextBtn" onclick="generateQuestion()" style="display: none;">Soal Berikutnya</button>
         <button id="pauseBtn" onclick="pauseAutoNext()" style="display: none;">Pause</button>
       </div>
-    </div>
+     </div>
+      </div>
+    
 
     <button id="nextBtn" onclick="generateQuestion()" style="display: none;">Soal Berikutnya</button>
 
@@ -460,6 +470,9 @@
 ];
   
     let remainingQuestions = [...questions];
+    let autoNextTimeout;  // Timer untuk auto-next
+    let isPaused = false; // Status pause
+
     let correctAnswer = "";
     let currentQuestion = 0;
     const totalQuestions = questions.length;
@@ -477,6 +490,13 @@
       }
       return array;
     }
+
+    function startQuiz() {
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("quizContainer").style.display = "block";
+      generateQuestion();
+    }
+
 
     function updateProgressBar() {
       const progress = (currentQuestion / totalQuestions) * 100;
@@ -497,9 +517,20 @@
         document.body.appendChild(confetti);
         
         // Remove after animation
-        setTimeout(() => {
-          confetti.remove();
-        }, 5000);
+        // setTimeout(() => {
+        //   confetti.remove();
+        // }, 5000);
+        isPaused = false;
+          document.getElementById("nextBtn").style.display = "inline-block";
+          document.getElementById("pauseBtn").style.display = "inline-block";
+
+          // auto next dalam 3 detik jika tidak pause
+          autoNextTimeout = setTimeout(() => {
+            if (!isPaused) {
+              generateQuestion();
+            }
+          }, 3000);
+
       }
     }
     
@@ -553,11 +584,23 @@
         }
       });
       
-    //   // Automatically move to next question after a short delay
-      setTimeout(() => {
-        generateQuestion();
-      }, 4500);
+    // //   // Automatically move to next question after a short delay
+    //   setTimeout(() => {
+    //     generateQuestion();
+    //   }, 4500);
+    // }
+    isPaused = false;
+      document.getElementById("nextBtn").style.display = "inline-block";
+      document.getElementById("pauseBtn").style.display = "inline-block";
+
+      // auto next dalam 3 detik jika tidak pause
+      autoNextTimeout = setTimeout(() => {
+        if (!isPaused) {
+          generateQuestion();
+        }
+      }, 3000);
     }
+
 
     function generateQuestion() {
       stopTimer();
@@ -652,19 +695,53 @@
         createConfetti(20);
         
         // Show next button or automatically proceed after delay
-        setTimeout(() => {
-          generateQuestion();
-        }, 4700);
+        // setTimeout(() => {
+        //   generateQuestion();
+        // }, 4700);
+        isPaused = false;
+          document.getElementById("nextBtn").style.display = "inline-block";
+          document.getElementById("pauseBtn").style.display = "inline-block";
+
+          // auto next dalam 3 detik jika tidak pause
+          autoNextTimeout = setTimeout(() => {
+            if (!isPaused) {
+              generateQuestion();
+            }
+          }, 3000);
+
       } else {
         element.classList.add('incorrect');
         incorrectSound.play();
         
         // Show next button or automatically proceed after delay
-        setTimeout(() => {
-          generateQuestion();
-        },4700);
+        // setTimeout(() => {
+        //   generateQuestion();
+        // },4700);
+        isPaused = false;
+          document.getElementById("nextBtn").style.display = "inline-block";
+          document.getElementById("pauseBtn").style.display = "inline-block";
+
+          // auto next dalam 3 detik jika tidak pause
+          autoNextTimeout = setTimeout(() => {
+            if (!isPaused) {
+              generateQuestion();
+            }
+          }, 3000);
+
       }
     }
+
+    function pauseAutoNext() {
+  isPaused = true;
+  clearTimeout(autoNextTimeout);
+  document.getElementById("pauseBtn").style.display = "none"; // sembunyikan tombol pause
+}
+
+function resumeAutoNext() {
+  isPaused = false;
+  document.getElementById("pauseBtn").style.display = "inline-block"; // tampilkan tombol pause
+  generateQuestion(); // lanjutkan ke soal berikutnya secara otomatis
+}
 
     function resetQuiz() {
       remainingQuestions = [...questions];
@@ -676,10 +753,10 @@
       generateQuestion();
     }
 
-    // Start the quiz when page loads
-    window.onload = function() {
-      generateQuestion();
-    };
+    // // Start the quiz when page loads
+    // window.onload = function() {
+    //   generateQuestion();
+    // };
   </script>
 </body>
 </html>
