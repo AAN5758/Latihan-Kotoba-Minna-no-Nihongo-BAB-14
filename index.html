@@ -392,7 +392,11 @@
 
     <div class="question-area">
       <div class="question shine-effect" id="question">Soalnya di sini</div>
-      <div class="options-container" id="options"></div>
+      <div class="options-container" id="options">
+        <button id="nextBtn" onclick="generateQuestion()" style="display: none;">Soal Berikutnya</button>
+        <button id="pauseBtn" onclick="pauseAutoNext()" style="display: none;">Pause</button>
+
+      </div>
     </div>
 
     <button id="nextBtn" onclick="generateQuestion()" style="display: none;">Soal Berikutnya</button>
