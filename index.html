@@ -395,7 +395,6 @@
       <div class="options-container" id="options">
         <button id="nextBtn" onclick="generateQuestion()" style="display: none;">Soal Berikutnya</button>
         <button id="pauseBtn" onclick="pauseAutoNext()" style="display: none;">Pause</button>
-
       </div>
     </div>
 
@@ -655,7 +654,7 @@
         // Show next button or automatically proceed after delay
         setTimeout(() => {
           generateQuestion();
-        }, 3000);
+        }, 4700);
       } else {
         element.classList.add('incorrect');
         incorrectSound.play();
@@ -663,7 +662,7 @@
         // Show next button or automatically proceed after delay
         setTimeout(() => {
           generateQuestion();
-        }, 3000);
+        },4700);
       }
     }
 
